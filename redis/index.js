@@ -1,9 +1,17 @@
 const Redis = require('ioredis');
+let cachedRedisClient;
 
 function getClient(redisConfig) {
     return new Redis(redisConfig);
 }
-module.exports.init = function(redisConfig) {
+
+function fetchRedisClientFromCache(){
+  return cachedRedisClient;
+}
+function init(redisConfig) {
+  const redisClient = fetchRedisClientFromCache();
+  if(redisClient)
+    return redisClient
   const client = getClient(redisConfig);
 
   client.on('connect', () => {
@@ -22,5 +30,11 @@ module.exports.init = function(redisConfig) {
     console.log('Redis client reconnecting');
   });
 
+  cachedRedisClient = client;
   return client;
+}
+
+module.exports = {
+  init,
+  fetchRedisClientFromCache
 }

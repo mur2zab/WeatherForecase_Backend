@@ -11,6 +11,7 @@ function initializeRedis(redisConfig = {} ) {
 }
 
 module.exports.init = async function(config) {
+    global.config = config;
     await initializeRedis(config.redis);
 
 }

@@ -1,24 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const app = express();
-
 app.use(bodyParser());
-var router = express.Router()
+const PORT = config.app.port;
 
-router.get('/health', (req,res) => {
+
+const citiesRoutes = require('./routes/cities.routes')();
+const weatherRoutes = require('./routes/weather.routes')();
+
+
+app.get('/health', (req,res) => {
   res.status(200).send({
     status: "OK"
   })
 })
 
-router.get('/cities', (req, res) => {
-  console.log("CITIES")
-  res.send("Success");
-})
+app.use('/api/cities', citiesRoutes)
 
-app.use('/api', router)
+app.use('/api/weather', weatherRoutes)
 
-app.listen(5000, () =>{
-  console.log("Server is listening on port 5000")
+
+app.listen(PORT, () =>{
+  console.log(`Server is listening on port ${PORT}`)
 })
