@@ -15,3 +15,4 @@ Steps to run the application:
 2) Complete the existing and add more test scripts
 3) Seggregate the fixtures and test scripts
 4) Handling of other types of API calls using the utility (apiCaller)
+5) API_KEY is hardcoded, Needs to be moved to env 
